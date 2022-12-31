@@ -1,18 +1,9 @@
 package btree;
 
-class Node {
-    int value;
-    Node left;
-    Node right;
-    public Node(int value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
-}
-
 public class BinaryTree {
+
     Node root;
+
     public BinaryTree() {
         Node node1 = new Node(1);
         Node node2 = new Node(2);
@@ -34,12 +25,22 @@ public class BinaryTree {
 
     public static void main(String[] args) {
         var bt = new BinaryTree();
-        System.out.print("---inorder----> ");
+        System.out.print("---inorder------->\t");
         bt.inOrderTraversal(bt.root);
-        System.out.print("\n---preorder---> ");
+        System.out.print("\n---preorder------>\t");
         bt.preOrderTraversal(bt.root);
-        System.out.print("\n---postorder--> ");
+        System.out.print("\n---postorder----->\t");
         bt.postOrderTraversal(bt.root);
+        System.out.print("\n---in order predecessor swapping--->");
+        bt.inOrderPredecessorSwap(bt.root);
+        bt.inOrderTraversal(bt.root);
+        var r = bt.highestLevel(bt.root);
+        System.out.print("\n---tree highest level--->\t"+r);
+        var nbt = bt.copy(bt.root);
+        System.out.print("\n---new tree inorder------->\t");
+        bt.inOrderTraversal(nbt);
+        nbt = bt.delete(nbt);
+        System.out.print("\n---new tree deleted------->\t"+nbt);
     }
 
     public void inOrderTraversal(Node parent) {
@@ -69,6 +70,56 @@ public class BinaryTree {
             postOrderTraversal(parent.left);
             postOrderTraversal(parent.right);
             System.out.print(parent.value);
+        }
+    }
+
+    int predecessor = -1;
+    public void inOrderPredecessorSwap(Node parent){
+        if(parent == null){
+            return;
+        } else {
+            this.inOrderPredecessorSwap(parent.left);
+            this.swap(parent);
+            this.inOrderPredecessorSwap(parent.right);
+        }
+    }
+    private void swap(Node parent) {
+        var temp = parent.value;
+        parent.value = predecessor;
+        predecessor = temp;
+    }
+
+    public int highestLevel(Node parent){
+        if(parent == null){
+            return -1;
+        }
+        var hLeft = this.highestLevel(parent.left);
+        var hRight = this.highestLevel(parent.right);
+        if(hLeft > hRight){
+            return hLeft + 1;
+        } else {
+            return hRight + 1;
+        }
+    }
+
+    public Node copy(Node parent){
+        if(parent == null){
+            return parent;
+        } else {
+            var newParent = parent;
+            newParent.left = this.copy(parent.left);
+            newParent.right = this.copy(parent.right);
+            return newParent;
+        }
+    }
+
+    public Node delete(Node parent){
+        if(parent == null){
+            return parent;
+        } else {
+            this.delete(parent.left);
+            this.delete(parent.right);
+            return null;
         }
     }
 }
