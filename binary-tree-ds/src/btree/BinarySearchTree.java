@@ -37,4 +37,19 @@ public class BinarySearchTree extends BinaryTree{
         }
         return parent;
     }
+
+    public Node delete(Node parent, int key){
+        if(parent == null){
+            return parent;
+        } else if (key < parent.value){
+            parent.left = this.delete(parent.left, key);
+        } else if (key > parent.value){
+            parent.right = this.delete(parent.right, key);
+        } else {
+            var predecessor = this.inOrderPredecessor(parent);
+            parent.value = predecessor.value;
+            parent.left = this.delete(parent.left, key);
+        }
+        return parent;
+    }
 }

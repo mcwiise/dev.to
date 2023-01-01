@@ -89,6 +89,14 @@ public class BinaryTree {
         predecessor = temp;
     }
 
+    public Node inOrderPredecessor(Node parent) {
+        var tempNode = parent.left;
+        while(tempNode.right != null){
+            tempNode = tempNode.right;
+        }
+        return tempNode;
+    }
+
     public int highestLevel(Node parent){
         if(parent == null){
             return -1;
