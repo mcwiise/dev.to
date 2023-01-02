@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+group 'org.mcwiise.cap'
+version '1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.projectreactor:reactor-core:3.5.0'
+}
