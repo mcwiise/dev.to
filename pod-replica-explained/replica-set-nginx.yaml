@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replica-yaml
+  labels:
+    color: blue
+    version: "1"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      color: blue      
+  template:
+    metadata:
+      labels:
+        color: blue
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: http
